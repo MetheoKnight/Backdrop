@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Backdrop: video wallpapers for Windows</title>
-<meta name="description" content="Backdrop loops an MP4 or a YouTube clip behind your Windows desktop icons, one per monitor. Now playing widget for Spotify and browsers. Installs without admin rights.">
+<meta name="description" content="Backdrop loops an MP4 or a YouTube clip behind your Windows desktop icons, one per monitor. Now-playing widget with clickable controls, themes, and custom fonts. Installs without admin rights.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232d3cf0'/%3E%3Cpath d='M12 9l12 7-12 7z' fill='white'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -84,7 +84,23 @@ h1 { font-size: clamp(2.6rem, 6vw, 4.7rem); font-weight: 800; letter-spacing: -.
 .nowplay .meta b { display: block; font: 600 .85rem var(--body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .nowplay .meta span { display: block; font-size: .72rem; color: #b7c0d9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .nowplay .bar { height: 3px; background: rgba(255,255,255,.15); border-radius: 99px; margin-top: .35rem; overflow: hidden; }
-.nowplay .bar i { display: block; height: 100%; width: 38%; background: #1db954; border-radius: 99px; }
+.nowplay .bar i { display: block; height: 100%; width: 0%; background: #1db954; border-radius: 99px; transition: width .25s linear; }
+.nowplay .ctrls { display: flex; gap: .35rem; margin-top: .4rem; align-items: center; }
+.nowplay .ctrls button {
+  appearance: none; border: 0; background: rgba(255,255,255,.08); color: #fff;
+  width: 1.7rem; height: 1.7rem; border-radius: 50%; cursor: pointer;
+  font-size: .72rem; line-height: 1; display: grid; place-items: center;
+  transition: background .15s, transform .1s; padding: 0;
+}
+.nowplay .ctrls button:hover { background: rgba(255,255,255,.18); }
+.nowplay .ctrls button:active { transform: scale(.92); }
+.nowplay .ctrls button.play { width: 2rem; height: 2rem; font-size: .85rem; background: #1db954; }
+.nowplay .ctrls button.play:hover { background: #1ed760; }
+.nowplay { pointer-events: auto; max-width: 17.5rem; }
+.nowplay .meta { flex: 1; min-width: 0; }
+@media (max-width: 800px) {
+  .nowplay { display: none; }
+}
 .taskbar { position: absolute; left: 0; right: 0; bottom: 0; height: 46px; display: flex; align-items: center; justify-content: center; gap: .6rem; background: rgba(14,20,38,.7); backdrop-filter: blur(14px); border-top: 1px solid rgba(255,255,255,.1); }
 .taskbar .q { width: 1.5rem; height: 1.5rem; border-radius: .4rem; background: rgba(255,255,255,.2); }
 .taskbar .q:first-child { background: var(--blue); }
@@ -153,7 +169,7 @@ details p { margin: .7rem 0 0; color: var(--ink2); max-width: 60ch; }
   </div>
   <div class="hero-copy">
     <h1>Put a video behind your desktop icons.</h1>
-    <p class="lead">Backdrop loops an MP4 or a YouTube clip as your Windows wallpaper, with a different one on each monitor if you like. Add a clock, a now-playing widget, tint it, forget it's running.</p>
+    <p class="lead">Backdrop loops an MP4 or a YouTube clip as your Windows wallpaper, with a different one on each monitor if you like. Add a clock, a themed now-playing widget you can control, import fonts, tint it, forget it's running.</p>
     <div class="cta">
       <a class="btn light" data-dl href="#" download>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>
@@ -166,17 +182,22 @@ details p { margin: .7rem 0 0; color: var(--ink2); max-width: 60ch; }
   <div class="clock" id="clock" role="img" aria-label="A live clock. Drag it anywhere.">
     <b id="t">9:41 PM</b><span id="d">Sunday, October 11</span>
   </div>
-  <div class="nowplay" aria-hidden="true">
-    <div class="art">
+  <div class="nowplay" id="nowplay" role="region" aria-label="Demo now-playing widget">
+    <div class="art" id="np-art" aria-hidden="true">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
     </div>
     <div class="meta">
-      <b>Blinding Lights</b>
-      <span>The Weeknd · Spotify</span>
-      <div class="bar"><i></i></div>
+      <b id="np-title">Loading…</b>
+      <span id="np-artist">Royalty-free demo</span>
+      <div class="bar" aria-hidden="true"><i id="np-fill"></i></div>
+      <div class="ctrls">
+        <button type="button" id="np-prev" aria-label="Previous track" title="Previous">⏮</button>
+        <button type="button" class="play" id="np-play" aria-label="Play or pause" title="Play / Pause">❚❚</button>
+        <button type="button" id="np-next" aria-label="Next track" title="Next">⏭</button>
+      </div>
     </div>
   </div>
-  <p class="hint">That clock is draggable. In the app you can put one anywhere, plus text, pictures, and a now-playing widget.</p>
+  <p class="hint">That clock is draggable. In the app you can put one anywhere, plus text, pictures, and a themed now-playing widget with real controls.</p>
   <div class="taskbar" aria-hidden="true"><i class="q"></i><i class="q"></i><i class="q"></i><i class="q"></i><i class="q"></i><em id="tb"></em></div>
 </header>
 <section class="block" id="what">
@@ -185,15 +206,24 @@ details p { margin: .7rem 0 0; color: var(--ink2); max-width: 60ch; }
     <p class="intro">Windows only gives you still pictures. Backdrop draws a video player on the layer behind your icons, so everything on your desktop works like normal and the background moves.</p>
     <div class="row"><h3>Loops what you give it</h3><p>Drop in an MP4 or WebM file, or paste a YouTube link. It plays muted and repeats until you swap it out. Imported files are copied into Backdrop's library, so moving the original won't break anything.</p></div>
     <div class="row"><h3>One wallpaper per monitor</h3><p>Backdrop draws your displays to scale at the top of the window. Click a screen, click a wallpaper, done. Or send the same one to every monitor at once.</p></div>
-    <div class="row"><h3>Make it yours</h3><p>Put a clock, some text, a picture, or a now-playing widget on top and drag it into place. Change brightness, blur, tint and speed until it looks right. Your changes are saved with the wallpaper.</p></div>
-    <div class="row"><h3>See what's playing</h3><p>Add a Spotify-style now-playing card to any wallpaper. It picks up whatever is playing through Spotify, Edge, Chrome or Brave and shows the title, artist and progress.</p></div>
+    <div class="row"><h3>Make it yours</h3><p>Put a clock, some text, a picture, or a now-playing widget on top and drag it into place. Import your own fonts for text and clocks. Change brightness, blur, tint and speed until it looks right. Your changes are saved with the wallpaper.</p></div>
+    <div class="row"><h3>See what's playing — and control it</h3><p>Add a Spotify-style now-playing card to any wallpaper. It picks up whatever is playing through Spotify, Edge, Chrome or Brave, shows title, artist and progress, and lets you pause or skip from the card itself. Themes and a full custom colour mode are in the editor.</p></div>
     <div class="row"><h3>Stays out of the way</h3><p>It lives in the system tray. Close the window and the wallpaper keeps playing. Turn on start with Windows and it puts everything back after you sign in.</p></div>
   </div>
 </section>
 <section class="block" id="new" style="padding-top:0">
   <div class="wrap">
-    <h2>What's new in <span data-v>0.3.0</span></h2>
-    <p class="when">The latest update. Older changes from 0.2.0 are listed underneath.</p>
+    <h2>What's new in <span data-v>0.3.1</span></h2>
+    <p class="when">The latest update. Older changes from 0.3.0 and 0.2.0 are listed underneath.</p>
+    <ol class="log">
+      <li><span class="tag">New</span><div><h3>Clickable media controls</h3><p>The now-playing card is no longer display-only. Press play/pause, previous or next right on the wallpaper and it controls Spotify (or Edge, Chrome, Brave — anything using Windows media sessions). The buttons work in the editor and on the live desktop.</p></div></li>
+      <li><span class="tag">New</span><div><h3>Themes for now playing</h3><p>Pick a look for the card: <strong>Spotify</strong>, <strong>Dark</strong>, <strong>Light</strong>, <strong>Glass</strong>, <strong>Neon</strong>, or <strong>Custom</strong>. Custom mode lets you set card colours, a gradient, the accent (progress bar) and text colour so it matches your wallpaper.</p></div></li>
+      <li><span class="tag">New</span><div><h3>Import your own fonts</h3><p>In the editor, when you have a clock or text layer selected, press <strong>Import font…</strong> and pick a .ttf, .otf or .woff file. It shows up in the font list for that wallpaper so you're not limited to the built-in system faces.</p></div></li>
+      <li><span class="tag fix">Fixed</span><div><h3>Now-playing reliability</h3><p>Fixed field mismatches and missing pieces in the media session reader that caused errors and blank cards. Album art shows when Windows provides a thumbnail. The widget no longer gets squished in the preview or on unusual screen sizes.</p></div></li>
+    </ol>
+
+    <h2 style="margin-top:4rem">What was new in 0.3.0</h2>
+    <p class="when">The release that introduced the now-playing widget.</p>
     <ol class="log">
       <li><span class="tag">New</span><div><h3>Now playing widget</h3><p>In the wallpaper editor, press <strong>Add now playing</strong>. You get a Spotify-style card you can drag anywhere — bottom-left, top-right, wherever. Choose vertical or horizontal layout and set the size. It shows the track title, artist, app name and a progress bar. Works with Spotify desktop and media playing in Microsoft Edge, Chrome or Brave (anything that reports through Windows media sessions).</p></div></li>
     </ol>
@@ -242,7 +272,8 @@ details p { margin: .7rem 0 0; color: var(--ink2); max-width: 60ch; }
     <details><summary>Why does Windows say it protected my PC?</summary><p>SmartScreen warns about installers from publishers it doesn't know yet, and Backdrop isn't signed with a paid certificate. Click More info, then Run anyway. If you'd like proof the file hasn't been changed, compare its checksum with the one above.</p></details>
     <details><summary>Will it slow down my games?</summary><p>It's a video playing behind your windows, so it does use some GPU. Backdrop doesn't pause for fullscreen games yet. If you notice a dip, right-click the tray icon near your clock and choose Quit and remove wallpapers.</p></details>
     <details><summary>My YouTube wallpaper shows an error</summary><p>Some uploaders switch off embedding, and YouTube occasionally rejects embeds from desktop apps. Try a different video, or download the file and import it as an MP4 instead.</p></details>
-    <details><summary>Does the now-playing widget work with every app?</summary><p>It uses Windows' system media session, so anything that reports there will show up — Spotify, Edge, Chrome, Brave, and most other media players. Apps that don't publish a media session won't appear.</p></details>
+    <details><summary>Does the now-playing widget work with every app?</summary><p>It uses Windows' system media session, so anything that reports there will show up — Spotify, Edge, Chrome, Brave, and most other media players. Apps that don't publish a media session won't appear. The play, pause and skip buttons on the card control that same session.</p></details>
+    <details><summary>Can I theme the now-playing card or use my own fonts?</summary><p>Yes. In the editor, pick a theme (Spotify, Dark, Light, Glass, Neon) or switch to Custom and set your own colours and gradient. For text and clocks, use <strong>Import font…</strong> to add .ttf, .otf or .woff files; they appear in the font list for that wallpaper.</p></details>
     <details><summary>Does it send my data anywhere?</summary><p>There's no account and no tracking. Backdrop only goes online to play YouTube wallpapers and to check for updates.</p></details>
     <details><summary>Where are my wallpapers stored? How do I uninstall?</summary><p>Imported videos are copied to <strong>%APPDATA%\app.backdrop.desktop\library</strong>. Delete that folder if you want them gone. To remove the app itself, use Settings, then Apps, then Installed apps.</p></details>
   </div>
@@ -253,9 +284,9 @@ details p { margin: .7rem 0 0; color: var(--ink2); max-width: 60ch; }
 <script>
 /* Next release: change these values (and the log above), then upload the new installer. */
 const RELEASE = {
-  version: '0.3.0',
-  file: 'Backdrop_0.3.0_x64-setup.exe',
-  url: 'https://github.com/MetheoKnight/Backdrop/raw/main/Backdrop_0.3.0_x64-setup.exe',
+  version: '0.3.1',
+  file: 'Backdrop_0.3.1_x64-setup.exe',
+  url: 'https://github.com/MetheoKnight/Backdrop/raw/main/Backdrop_0.3.1_x64-setup.exe',
   size: '—',          // e.g. '2.1 MB' — fill after you build
   sha256: '—'          // paste Get-FileHash result after you build
 };
@@ -299,6 +330,113 @@ clock.addEventListener('pointermove', (e) => {
 const drop = () => { grab = null; clock.classList.remove('grab'); };
 clock.addEventListener('pointerup', drop);
 clock.addEventListener('pointercancel', drop);
+
+/* Hero now-playing: real audio from royalty-free demo tracks (not Spotify / not copyrighted commercial music). */
+(function () {
+  // SoundHelix example tracks — free for demo use (https://www.soundhelix.com/)
+  const tracks = [
+    {
+      title: 'SoundHelix Song 1',
+      artist: 'T. Schürger · Free demo',
+      color: 'linear-gradient(145deg, #1db954, #191414)',
+      src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+    },
+    {
+      title: 'SoundHelix Song 2',
+      artist: 'T. Schürger · Free demo',
+      color: 'linear-gradient(145deg, #3b82f6, #1e3a5f)',
+      src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
+    },
+    {
+      title: 'SoundHelix Song 3',
+      artist: 'T. Schürger · Free demo',
+      color: 'linear-gradient(145deg, #ec4899, #4a1942)',
+      src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
+    },
+    {
+      title: 'SoundHelix Song 8',
+      artist: 'T. Schürger · Free demo',
+      color: 'linear-gradient(145deg, #f59e0b, #3d2914)',
+      src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3',
+    },
+    {
+      title: 'SoundHelix Song 16',
+      artist: 'T. Schürger · Free demo',
+      color: 'linear-gradient(145deg, #a855f7, #2e1065)',
+      src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3',
+    },
+  ];
+
+  let i = Math.floor(Math.random() * tracks.length);
+  const title = $('#np-title'), artist = $('#np-artist'), fill = $('#np-fill');
+  const art = $('#np-art'), playBtn = $('#np-play');
+  if (!title || !playBtn) return;
+
+  const audio = new Audio();
+  audio.preload = 'metadata';
+  audio.crossOrigin = 'anonymous';
+
+  function showMeta() {
+    const t = tracks[i];
+    title.textContent = t.title;
+    artist.textContent = t.artist;
+    art.style.background = t.color;
+    const playing = !audio.paused && !audio.ended;
+    playBtn.textContent = playing ? '❚❚' : '▶';
+    playBtn.setAttribute('aria-label', playing ? 'Pause' : 'Play');
+  }
+
+  function loadTrack(autoplay) {
+    const t = tracks[i];
+    audio.src = t.src;
+    audio.load();
+    showMeta();
+    fill.style.width = '0%';
+    if (autoplay) {
+      audio.play().then(showMeta).catch(() => {
+        // Browser blocked autoplay — wait for a click
+        showMeta();
+      });
+    }
+  }
+
+  function syncBar() {
+    if (audio.duration && isFinite(audio.duration)) {
+      fill.style.width = Math.min(100, (audio.currentTime / audio.duration) * 100) + '%';
+    }
+  }
+
+  audio.addEventListener('timeupdate', syncBar);
+  audio.addEventListener('ended', () => {
+    i = (i + 1) % tracks.length;
+    loadTrack(true);
+  });
+  audio.addEventListener('play', showMeta);
+  audio.addEventListener('pause', showMeta);
+
+  $('#np-prev').addEventListener('click', (e) => {
+    e.stopPropagation();
+    i = (i - 1 + tracks.length) % tracks.length;
+    loadTrack(true);
+  });
+  $('#np-next').addEventListener('click', (e) => {
+    e.stopPropagation();
+    i = (i + 1) % tracks.length;
+    loadTrack(true);
+  });
+  playBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (audio.paused) {
+      audio.play().then(showMeta).catch(() => showMeta());
+    } else {
+      audio.pause();
+      showMeta();
+    }
+  });
+
+  // Start on a random free track; don't autoplay until user presses play (browser policy)
+  loadTrack(false);
+})();
 </script>
 </body>
 </html>
