@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Backdrop: video wallpapers for Windows</title>
-<meta name="description" content="Backdrop loops an MP4 or a YouTube clip behind your Windows desktop icons, one per monitor. Installs without admin rights.">
+<meta name="description" content="Backdrop loops an MP4 or a YouTube clip behind your Windows desktop icons, one per monitor. Now playing widget for Spotify and browsers. Installs without admin rights.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232d3cf0'/%3E%3Cpath d='M12 9l12 7-12 7z' fill='white'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,13 +27,11 @@ a { color: inherit; }
 .dark { background: var(--night); color: #e9edf7; }
 h2 { font-size: clamp(2rem, 4.2vw, 3.2rem); font-weight: 800; max-width: 20ch; }
 .intro { max-width: 40rem; color: var(--ink2); margin: 1rem 0 3rem; }
-
 .btn { display: inline-flex; align-items: center; gap: .6rem; padding: .9rem 1.4rem; border-radius: 12px; border: 0; background: var(--blue); color: #fff; font: 600 1rem var(--body); text-decoration: none; cursor: pointer; transition: background .15s; }
 .btn:hover { background: #4553ff; }
 .btn.light { background: #fff; color: var(--night); }
 .btn.light:hover { background: #e4e8ff; }
 .btn.sm { padding: .5rem 1rem; font-size: .95rem; }
-
 /* ---------- hero: the page is a desktop ---------- */
 .hero { position: relative; min-height: 100svh; background: var(--night); color: #fff; overflow: hidden; display: flex; flex-direction: column; }
 .wall { position: absolute; inset: 0; z-index: 0; }
@@ -43,43 +41,58 @@ h2 { font-size: clamp(2rem, 4.2vw, 3.2rem); font-weight: 800; max-width: 20ch; }
 .wall i:nth-child(3) { width: 44vmax; height: 44vmax; left: 30vmax; bottom: -24vmax; background: #12b5cb; animation-duration: 25s; animation-delay: -14s; }
 @keyframes drift { to { transform: translate(8vmax, -6vmax) scale(1.12); } }
 .hero::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(90deg, rgba(10,15,31,.8), rgba(10,15,31,.12) 72%); }
-.nav, .icons, .hero-copy, .clock, .hint, .taskbar { z-index: 2; }
+.nav, .icons, .hero-copy, .clock, .hint, .taskbar, .nowplay { z-index: 2; }
 .nav { position: relative; display: flex; justify-content: space-between; align-items: center; padding: 1.1rem clamp(1rem, 4vw, 2.5rem); }
 .brand { font: 800 1.45rem var(--head); letter-spacing: -.03em; text-decoration: none; }
 .nav div { display: flex; align-items: center; gap: 1.6rem; }
 .nav div a { text-decoration: none; opacity: .88; }
 .nav div a:hover { opacity: 1; }
 .nav .btn { opacity: 1; }
-
 .icons { position: absolute; left: clamp(.75rem, 2vw, 1.5rem); top: 5.5rem; display: grid; gap: 1.1rem; width: 5.4rem; }
 .ic { display: grid; justify-items: center; gap: .35rem; font-size: .75rem; line-height: 1.2; text-align: center; color: #fff; text-decoration: none; text-shadow: 0 1px 3px rgba(0,0,0,.7); }
 .g { width: 2.8rem; height: 2.8rem; border-radius: .7rem; background: linear-gradient(145deg, rgba(255,255,255,.55), rgba(255,255,255,.14)); border: 1px solid rgba(255,255,255,.35); }
 .g.b { background: linear-gradient(145deg, #7d8bff, #2d3cf0); border-color: rgba(255,255,255,.6); }
 a.ic:hover .g { transform: translateY(-2px); }
-
 .hero-copy { margin: auto 0; margin-left: clamp(6.5rem, 14vw, 11rem); max-width: 37rem; padding: 2rem 1.5rem 5rem 0; }
 h1 { font-size: clamp(2.6rem, 6vw, 4.7rem); font-weight: 800; letter-spacing: -.035em; line-height: 1; }
 .lead { font-size: 1.2rem; max-width: 33rem; color: #dfe5f5; margin: 1.3rem 0 1.9rem; }
 .cta { display: flex; align-items: center; gap: 1.4rem; flex-wrap: wrap; }
 .cta a.plain { color: #dfe5f5; text-underline-offset: 4px; }
 .fine { margin: 1rem 0 0; font-size: .92rem; color: #b7c0d9; }
-
 .clock { position: absolute; right: clamp(1rem, 9vw, 8rem); top: 30%; text-align: center; cursor: grab; touch-action: none; user-select: none; padding: .4rem .9rem; border-radius: 14px; }
 .clock:hover, .clock.grab { outline: 2px dashed rgba(255,255,255,.45); }
 .clock.grab { cursor: grabbing; }
 .clock b { display: block; font: 800 clamp(3.4rem, 8.5vw, 7.4rem)/1 var(--head); letter-spacing: -.04em; text-shadow: 0 .04em .25em rgba(0,0,0,.45); }
 .clock span { font-size: clamp(1rem, 1.8vw, 1.4rem); text-shadow: 0 1px 8px rgba(0,0,0,.5); }
 .hint { position: absolute; right: 1.5rem; bottom: 3.7rem; max-width: 19rem; text-align: right; font-size: .85rem; color: #c3cbe3; }
+/* faux now-playing widget on the hero */
+.nowplay {
+  position: absolute; left: clamp(.75rem, 2vw, 1.5rem); bottom: 4.2rem;
+  display: flex; align-items: center; gap: .75rem;
+  padding: .65rem .9rem; border-radius: 14px;
+  background: rgba(14,20,38,.72); backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,.12);
+  max-width: 16rem; box-shadow: 0 8px 28px rgba(0,0,0,.35);
+}
+.nowplay .art {
+  width: 2.6rem; height: 2.6rem; border-radius: 8px; flex-shrink: 0;
+  background: linear-gradient(145deg, #1db954, #191414);
+  display: grid; place-items: center;
+}
+.nowplay .art svg { opacity: .95; }
+.nowplay .meta { min-width: 0; }
+.nowplay .meta b { display: block; font: 600 .85rem var(--body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nowplay .meta span { display: block; font-size: .72rem; color: #b7c0d9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nowplay .bar { height: 3px; background: rgba(255,255,255,.15); border-radius: 99px; margin-top: .35rem; overflow: hidden; }
+.nowplay .bar i { display: block; height: 100%; width: 38%; background: #1db954; border-radius: 99px; }
 .taskbar { position: absolute; left: 0; right: 0; bottom: 0; height: 46px; display: flex; align-items: center; justify-content: center; gap: .6rem; background: rgba(14,20,38,.7); backdrop-filter: blur(14px); border-top: 1px solid rgba(255,255,255,.1); }
 .taskbar .q { width: 1.5rem; height: 1.5rem; border-radius: .4rem; background: rgba(255,255,255,.2); }
 .taskbar .q:first-child { background: var(--blue); }
 .taskbar em { position: absolute; right: 1.2rem; font: normal .78rem var(--body); color: #cfd6ea; }
-
 /* ---------- content ---------- */
 .row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr); gap: 1rem 3rem; padding: 1.7rem 0; border-top: 1px solid var(--line); }
 .row h3 { font-size: 1.45rem; font-weight: 700; }
 .row p { margin: 0; color: var(--ink2); max-width: 46ch; }
-
 .when { color: var(--ink2); margin: .9rem 0 0; max-width: 40rem; }
 .log { list-style: none; margin: 2.5rem 0 0; padding: 0; }
 .log li { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); gap: 1rem 2rem; padding: 1.7rem 0; border-top: 1px solid var(--line); }
@@ -88,7 +101,6 @@ h1 { font-size: clamp(2.6rem, 6vw, 4.7rem); font-weight: 800; letter-spacing: -.
 .tag.better { background: #5b3fd1; }
 .log h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: .4rem; }
 .log p { margin: 0; color: var(--ink2); max-width: 62ch; }
-
 .install { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 3.5rem; margin-top: 2.5rem; }
 .steps { list-style: none; counter-reset: s; margin: 0 0 2rem; padding: 0; display: grid; gap: 1.5rem; }
 .steps li { counter-increment: s; display: grid; grid-template-columns: 2.4rem 1fr; gap: 1rem; }
@@ -101,7 +113,6 @@ h1 { font-size: clamp(2.6rem, 6vw, 4.7rem); font-weight: 800; letter-spacing: -.
 code { display: block; font: .85rem/1.5 ui-monospace, Consolas, monospace; word-break: break-all; background: rgba(0,0,0,.35); padding: .75rem .9rem; border-radius: 10px; margin-bottom: .8rem; }
 .copy { background: none; border: 1px solid rgba(255,255,255,.3); color: #fff; padding: .4rem .9rem; border-radius: 8px; font: 500 .9rem var(--body); cursor: pointer; }
 .copy:hover { border-color: #fff; }
-
 details { border-top: 1px solid var(--line); padding: 1.15rem 0; }
 details:last-of-type { border-bottom: 1px solid var(--line); }
 summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 1rem; font: 700 1.15rem var(--head); }
@@ -109,13 +120,11 @@ summary::-webkit-details-marker { display: none; }
 summary::after { content: "+"; font-weight: 500; color: var(--blue); }
 details[open] summary::after { content: "\2013"; }
 details p { margin: .7rem 0 0; color: var(--ink2); max-width: 60ch; }
-
 .foot { background: var(--night); color: #9fa9c4; padding: 2rem 0; font-size: .92rem; }
 .foot .wrap { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
-
 @media (max-width: 800px) {
   .nav div a:not(.btn) { display: none; }
-  .icons, .hint { display: none; }
+  .icons, .hint, .nowplay { display: none; }
   .hero-copy { margin-left: 1.5rem; padding-bottom: 1.5rem; }
   .clock { position: relative; right: auto; top: auto; align-self: flex-start; margin: 0 1.5rem 4.5rem; text-align: left; }
   .row, .install, .log li { grid-template-columns: 1fr; }
@@ -125,65 +134,72 @@ details p { margin: .7rem 0 0; color: var(--ink2); max-width: 60ch; }
 </style>
 </head>
 <body>
-
 <header class="hero" id="top">
   <div class="wall" aria-hidden="true"><i></i><i></i><i></i></div>
-
   <nav class="nav" aria-label="Main">
     <a class="brand" href="#top">Backdrop</a>
     <div>
       <a href="#what">What it does</a>
       <a href="#new">What's new</a>
       <a href="#faq">FAQ</a>
-      <a class="btn light sm" data-dl href="Backdrop_0_2_0_x64-setup.exe" download>Download</a>
+      <a class="btn light sm" data-dl href="#" download>Download</a>
     </div>
   </nav>
-
   <div class="icons">
     <div class="ic" aria-hidden="true"><span class="g"></span>Recycle Bin</div>
     <div class="ic" aria-hidden="true"><span class="g"></span>Projects</div>
     <div class="ic" aria-hidden="true"><span class="g"></span>Notes</div>
-    <a class="ic" data-dl href="Backdrop_0_2_0_x64-setup.exe" download><span class="g b"></span>Backdrop setup</a>
+    <a class="ic" data-dl href="#" download><span class="g b"></span>Backdrop setup</a>
   </div>
-
   <div class="hero-copy">
     <h1>Put a video behind your desktop icons.</h1>
-    <p class="lead">Backdrop loops an MP4 or a YouTube clip as your Windows wallpaper, with a different one on each monitor if you like. Add a clock, tint it, forget it's running.</p>
+    <p class="lead">Backdrop loops an MP4 or a YouTube clip as your Windows wallpaper, with a different one on each monitor if you like. Add a clock, a now-playing widget, tint it, forget it's running.</p>
     <div class="cta">
-      <a class="btn light" data-dl href="Backdrop_0_2_0_x64-setup.exe" download>
+      <a class="btn light" data-dl href="#" download>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>
         Download for Windows
       </a>
-      <a class="plain" href="#new">See what's new in <span data-v>0.2.0</span></a>
+      <a class="plain" href="#new">See what's new in <span data-v>0.3.0</span></a>
     </div>
-    <p class="fine">Version <span data-v>0.2.0</span> for Windows 10 and 11. <span data-size>1.8 MB</span>. No admin rights needed.</p>
+    <p class="fine">Version <span data-v>0.3.0</span> for Windows 10 and 11. <span data-size>—</span>. No admin rights needed.</p>
   </div>
-
   <div class="clock" id="clock" role="img" aria-label="A live clock. Drag it anywhere.">
     <b id="t">9:41 PM</b><span id="d">Sunday, October 11</span>
   </div>
-  <p class="hint">That clock is draggable. In the app you can put one anywhere, plus text and pictures.</p>
-
+  <div class="nowplay" aria-hidden="true">
+    <div class="art">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+    </div>
+    <div class="meta">
+      <b>Blinding Lights</b>
+      <span>The Weeknd · Spotify</span>
+      <div class="bar"><i></i></div>
+    </div>
+  </div>
+  <p class="hint">That clock is draggable. In the app you can put one anywhere, plus text, pictures, and a now-playing widget.</p>
   <div class="taskbar" aria-hidden="true"><i class="q"></i><i class="q"></i><i class="q"></i><i class="q"></i><i class="q"></i><em id="tb"></em></div>
 </header>
-
 <section class="block" id="what">
   <div class="wrap">
     <h2>A wallpaper that's actually a video</h2>
     <p class="intro">Windows only gives you still pictures. Backdrop draws a video player on the layer behind your icons, so everything on your desktop works like normal and the background moves.</p>
-
     <div class="row"><h3>Loops what you give it</h3><p>Drop in an MP4 or WebM file, or paste a YouTube link. It plays muted and repeats until you swap it out. Imported files are copied into Backdrop's library, so moving the original won't break anything.</p></div>
     <div class="row"><h3>One wallpaper per monitor</h3><p>Backdrop draws your displays to scale at the top of the window. Click a screen, click a wallpaper, done. Or send the same one to every monitor at once.</p></div>
-    <div class="row"><h3>Make it yours</h3><p>Put a clock, some text or a picture on top and drag it into place. Change brightness, blur, tint and speed until it looks right. Your changes are saved with the wallpaper.</p></div>
+    <div class="row"><h3>Make it yours</h3><p>Put a clock, some text, a picture, or a now-playing widget on top and drag it into place. Change brightness, blur, tint and speed until it looks right. Your changes are saved with the wallpaper.</p></div>
+    <div class="row"><h3>See what's playing</h3><p>Add a Spotify-style now-playing card to any wallpaper. It picks up whatever is playing through Spotify, Edge, Chrome or Brave and shows the title, artist and progress.</p></div>
     <div class="row"><h3>Stays out of the way</h3><p>It lives in the system tray. Close the window and the wallpaper keeps playing. Turn on start with Windows and it puts everything back after you sign in.</p></div>
   </div>
 </section>
-
 <section class="block" id="new" style="padding-top:0">
   <div class="wrap">
-    <h2>What's new in <span data-v>0.2.0</span></h2>
-    <p class="when">This is the first update to Backdrop. Here's everything that got added.</p>
+    <h2>What's new in <span data-v>0.3.0</span></h2>
+    <p class="when">The latest update. Older changes from 0.2.0 are listed underneath.</p>
+    <ol class="log">
+      <li><span class="tag">New</span><div><h3>Now playing widget</h3><p>In the wallpaper editor, press <strong>Add now playing</strong>. You get a Spotify-style card you can drag anywhere — bottom-left, top-right, wherever. Choose vertical or horizontal layout and set the size. It shows the track title, artist, app name and a progress bar. Works with Spotify desktop and media playing in Microsoft Edge, Chrome or Brave (anything that reports through Windows media sessions).</p></div></li>
+    </ol>
 
+    <h2 style="margin-top:4rem">What was new in 0.2.0</h2>
+    <p class="when">The first update to Backdrop. Here's everything that got added then.</p>
     <ol class="log">
       <li><span class="tag">New</span><div><h3>Edit any wallpaper</h3><p>Hover a wallpaper in your library and press Edit. You get a live preview where you can add a clock (12 or 24 hour, with seconds and the date if you want them), your own text, or an image or GIF, then drag each one where you want it. There are sliders for brightness, contrast, saturation, hue, blur, a colour tint, speed, volume and how the video fits the screen. Press Save and every monitor showing it updates straight away.</p></div></li>
       <li><span class="tag">New</span><div><h3>Get wallpapers button</h3><p>It opens motionbgs.com in your browser. Switch on auto-import and any .mp4 or .webm you download lands in your Backdrop library by itself, so you don't have to dig through your Downloads folder. Backdrop doesn't scrape the site. You use the site's own download buttons.</p></div></li>
@@ -194,75 +210,67 @@ details p { margin: .7rem 0 0; color: var(--ink2); max-width: 60ch; }
     </ol>
   </div>
 </section>
-
 <section class="block dark" id="install">
   <div class="wrap">
     <h2>Install it</h2>
     <div class="install">
       <div>
         <ol class="steps">
-          <li><div><b>Download the installer</b><p><span data-size>1.8 MB</span>, one file. Works on 64-bit Windows 10 and 11.</p></div></li>
+          <li><div><b>Download the installer</b><p><span data-size>—</span>, one file. Works on 64-bit Windows 10 and 11.</p></div></li>
           <li><div><b>Run it</b><p>Windows will probably show a blue "Windows protected your PC" screen. That's because I haven't paid for a code-signing certificate. Click More info, then Run anyway.</p></div></li>
-          <li><div><b>Pick your wallpaper</b><p>Tick the desktop shortcut box if you want one, open Backdrop, press Import MP4 (or drag a video into the window) and click it.</p></div></li>
+          <li><div><b>Pick your wallpaper</b><p>Tick the desktop shortcut box if you want one, open Backdrop, press Import MP4 (or drag a video into the window) and click it. To add the now-playing widget, edit a wallpaper and press Add now playing.</p></div></li>
         </ol>
-        <a class="btn" data-dl href="Backdrop_0_2_0_x64-setup.exe" download>
+        <a class="btn" data-dl href="#" download>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>
-          Download Backdrop <span data-v>0.2.0</span>
+          Download Backdrop <span data-v>0.3.0</span>
         </a>
       </div>
-
       <div class="verify">
         <h3>Want to check the file?</h3>
         <p>Run this in PowerShell from your Downloads folder and compare the result with the checksum below.</p>
-        <code id="cmd">Get-FileHash .\Backdrop_0_2_0_x64-setup.exe</code>
-        <code id="sha">b5e7e3de1a81f27def033c6687f3bd1e7a1a0c36021ccd27b352c1d801acb796</code>
+        <code id="cmd">Get-FileHash .\Backdrop_0.3.0_x64-setup.exe</code>
+        <code id="sha">—</code>
         <button class="copy" id="copy" type="button">Copy checksum</button>
       </div>
     </div>
   </div>
 </section>
-
 <section class="block" id="faq">
   <div class="wrap">
     <h2 style="margin-bottom:2.5rem">Questions people ask</h2>
-
     <details><summary>Do I need administrator rights?</summary><p>No. Backdrop installs just for your account, so Windows won't ask for an admin password.</p></details>
     <details><summary>Why does Windows say it protected my PC?</summary><p>SmartScreen warns about installers from publishers it doesn't know yet, and Backdrop isn't signed with a paid certificate. Click More info, then Run anyway. If you'd like proof the file hasn't been changed, compare its checksum with the one above.</p></details>
     <details><summary>Will it slow down my games?</summary><p>It's a video playing behind your windows, so it does use some GPU. Backdrop doesn't pause for fullscreen games yet. If you notice a dip, right-click the tray icon near your clock and choose Quit and remove wallpapers.</p></details>
     <details><summary>My YouTube wallpaper shows an error</summary><p>Some uploaders switch off embedding, and YouTube occasionally rejects embeds from desktop apps. Try a different video, or download the file and import it as an MP4 instead.</p></details>
+    <details><summary>Does the now-playing widget work with every app?</summary><p>It uses Windows' system media session, so anything that reports there will show up — Spotify, Edge, Chrome, Brave, and most other media players. Apps that don't publish a media session won't appear.</p></details>
     <details><summary>Does it send my data anywhere?</summary><p>There's no account and no tracking. Backdrop only goes online to play YouTube wallpapers and to check for updates.</p></details>
     <details><summary>Where are my wallpapers stored? How do I uninstall?</summary><p>Imported videos are copied to <strong>%APPDATA%\app.backdrop.desktop\library</strong>. Delete that folder if you want them gone. To remove the app itself, use Settings, then Apps, then Installed apps.</p></details>
   </div>
 </section>
-
 <footer class="foot">
-  <div class="wrap"><span>Backdrop <span data-v>0.2.0</span>. Windows only for now.</span><a href="#top">Back to top</a></div>
+  <div class="wrap"><span>Backdrop <span data-v>0.3.0</span>. Windows only for now.</span><a href="#top">Back to top</a></div>
 </footer>
-
 <script>
-/* Next release: change these four values (and the log above), then upload the new installer. */
+/* Next release: change these values (and the log above), then upload the new installer. */
 const RELEASE = {
-  version: '0.2.0',
-  file: 'Backdrop_0.2.0_x64-setup.exe',
-  url: 'https://github.com/MetheoKnight/Backdrop/raw/main/Backdrop_0.2.0_x64-setup.exe',
-  size: '1.8 MB',
-  sha256: 'b5e7e3de1a81f27def033c6687f3bd1e7a1a0c36021ccd27b352c1d801acb796'
+  version: '0.3.0',
+  file: 'Backdrop_0.3.0_x64-setup.exe',
+  url: 'https://github.com/MetheoKnight/Backdrop/raw/main/Backdrop_0.3.0_x64-setup.exe',
+  size: '—',          // e.g. '2.1 MB' — fill after you build
+  sha256: '—'          // paste Get-FileHash result after you build
 };
 const $ = (s) => document.querySelector(s);
 const all = (s) => document.querySelectorAll(s);
-
 all('[data-v]').forEach((e) => (e.textContent = RELEASE.version));
 all('[data-size]').forEach((e) => (e.textContent = RELEASE.size));
 all('[data-dl]').forEach((a) => { a.href = RELEASE.url; a.setAttribute('download', RELEASE.file); });
 $('#sha').textContent = RELEASE.sha256;
 $('#cmd').textContent = 'Get-FileHash .\\' + RELEASE.file;
-
 $('#copy').addEventListener('click', async (e) => {
   try { await navigator.clipboard.writeText(RELEASE.sha256); e.target.textContent = 'Copied'; }
   catch { e.target.textContent = 'Select it and press Ctrl+C'; }
   setTimeout(() => (e.target.textContent = 'Copy checksum'), 2200);
 });
-
 /* live clock on the faux desktop */
 function tick() {
   const n = new Date();
@@ -271,7 +279,6 @@ function tick() {
   $('#tb').textContent = n.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 }
 tick(); setInterval(tick, 1000);
-
 /* the clock can be dragged, like in the editor */
 const clock = $('#clock'), hero = $('#top'), wide = matchMedia('(min-width: 801px)');
 let grab = null;
